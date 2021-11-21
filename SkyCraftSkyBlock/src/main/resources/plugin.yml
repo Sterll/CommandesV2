@@ -6,4 +6,5 @@ authors: [ Sterll ]
 
 commands:
   is:
+    aliases: island
     description: Permet de jouer au skyblock
