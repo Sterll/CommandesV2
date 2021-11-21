@@ -1,0 +1,9 @@
+name: SkyCraftSkyBlock
+version: '${project.version}'
+main: fr.sterll.skycraftskyblock.Main
+api-version: 1.17
+authors: [ Sterll ]
+
+commands:
+  is:
+    description: Permet de jouer au skyblock
