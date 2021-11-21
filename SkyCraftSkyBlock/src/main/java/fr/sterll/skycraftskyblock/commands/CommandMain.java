@@ -70,6 +70,8 @@ public class CommandMain implements CommandExecutor {
 
     public void help(Player player){
         player.sendMessage("§9================================");
+        player.sendMessage("§6/is §7--> §bPermet de vous téléportez à votre île ou de vous en créez une");
+        player.sendMessage("§6/is controlpanel §7--> §bPermet d'ouvrir le menu de configuration de votre île");
         player.sendMessage("§9================================");
     }
 
