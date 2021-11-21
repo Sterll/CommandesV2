@@ -69,7 +69,8 @@ public class CommandMain implements CommandExecutor {
     }
 
     public void help(Player player){
-
+        player.sendMessage("§9================================");
+        player.sendMessage("§9================================");
     }
 
     public void warps(Player player) throws SQLException {
