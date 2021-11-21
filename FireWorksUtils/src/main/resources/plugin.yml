@@ -1,0 +1,9 @@
+name: FireWorksUtils
+version: '${project.version}'
+main: fr.yanis.fireworksutils.FWMain
+api-version: 1.17
+authors: [ Sterll ]
+description: Plugin de création de FireWorks
+commands:
+  fireworks:
+    description: Permet de configurer le feu d'artifice !

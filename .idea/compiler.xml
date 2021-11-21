@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SkyCraftSkyBlock" />
+        <module name="FireWorksUtils" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="FireWorksUtils" target="1.8" />
       <module name="SkyCraftSkyBlock" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -33,11 +33,12 @@ public class Utils {
     public static void createNewPlayer(Player player){
         try{
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
-            final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users_informations (uuid, name, canVote) VALUES (?,?,?)");
+            final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users_informations (uuid, name, canVote, inIsland_name) VALUES (?,?,?,?)");
 
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, player.getName());
             preparedStatement.setString(3, "1");
+            preparedStatement.setString(4, "Aucune");
 
             preparedStatement.executeUpdate();
 
