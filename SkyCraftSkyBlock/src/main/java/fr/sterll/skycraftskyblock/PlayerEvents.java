@@ -17,11 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.util.UUID;
 
-public class Events implements Listener {
+public class PlayerEvents implements Listener {
 
     private Main main;
 
-    public Events(Main main){
+    public PlayerEvents(Main main){
         this.main = main;
     }
 

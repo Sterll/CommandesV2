@@ -1,7 +1,7 @@
 package fr.sterll.skycraftskyblock.utils;
 
 import fr.sterll.skycraftskyblock.Main;
-import fr.sterll.skycraftskyblock.database.DatabaseManager;
+import fr.sterll.skycraftskyblock.gestion.database.DatabaseManager;
 import fr.sterll.skycraftskyblock.management.IslandManager;
 import fr.sterll.skycraftskyblock.management.PlayerManager;
 import org.bukkit.Bukkit;

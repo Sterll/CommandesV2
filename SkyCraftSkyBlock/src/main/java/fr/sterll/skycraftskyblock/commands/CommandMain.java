@@ -1,10 +1,9 @@
 package fr.sterll.skycraftskyblock.commands;
 
-import fr.sterll.skycraftskyblock.ItemBuilder;
+import fr.sterll.skycraftskyblock.utils.ItemBuilder;
 import fr.sterll.skycraftskyblock.Main;
 import fr.sterll.skycraftskyblock.management.IslandManager;
 import fr.sterll.skycraftskyblock.management.PlayerManager;
-import fr.sterll.skycraftskyblock.utils.DBUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,8 +17,6 @@ import org.bukkit.inventory.Inventory;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static fr.sterll.skycraftskyblock.utils.DBUtils.*;
 
 public class CommandMain implements CommandExecutor {
 

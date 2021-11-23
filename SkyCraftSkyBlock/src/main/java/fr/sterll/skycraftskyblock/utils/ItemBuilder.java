@@ -1,4 +1,4 @@
-package fr.sterll.skycraftskyblock;
+package fr.sterll.skycraftskyblock.utils;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;

@@ -1,4 +1,4 @@
-package fr.sterll.skycraftskyblock.database;
+package fr.sterll.skycraftskyblock.gestion.database;
 
 public class DatabaseCredentials {
 
