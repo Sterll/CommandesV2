@@ -1,6 +1,6 @@
 package fr.sterll.skycraftskyblock;
 
-import fr.sterll.skycraftskyblock.commands.CommandMain;
+import fr.sterll.skycraftskyblock.commands.CommandIsland;
 import fr.sterll.skycraftskyblock.gestion.database.DatabaseManager;
 import fr.sterll.skycraftskyblock.utils.DBUtils;
 import org.bukkit.Bukkit;
@@ -25,7 +25,7 @@ public final class Main extends JavaPlugin {
     }
 
     public void register(){
-        getCommand("is").setExecutor(new CommandMain(this));
+        getCommand("is").setExecutor(new CommandIsland(this));
         getServer().getPluginManager().registerEvents(new PlayerEvents(this), this);
     }
 

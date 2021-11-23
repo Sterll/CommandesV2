@@ -18,11 +18,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandMain implements CommandExecutor {
+public class CommandIsland implements CommandExecutor {
 
     private Main main;
 
-    public CommandMain(Main main){
+    public CommandIsland(Main main){
         this.main = main;
     }
 
