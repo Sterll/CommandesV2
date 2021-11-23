@@ -26,7 +26,6 @@ public class Events implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
-
         // ON VERIFIE SI LE JOUEUR EXISTE DANS LA BDD
         if (!(main.getDbUtils().ifHaveAAccount(player))) {
             main.getDbUtils().createNewPlayer(player);

@@ -89,7 +89,7 @@ public class CommandMain implements CommandExecutor {
         }
 
         for(String island_name : islands_name){
-            inv.addItem(new ItemBuilder(Material.PLAYER_HEAD).setSkullOwner(player.getName()).setName("§6" + island_name).setLore("§f", "§7- §9Owner : §b" + DBGetIslandStringInfoByIslandName(island_name, "owner_name"), "§7- §9Votes : §b" + DBGetIslandStringInfoByIslandName(island_name, "vote"),"§7- §9Level : §b" + DBGetIslandStringInfoByIslandName(island_name, "level"), "§f", "§7- §3Se téléporter à cette île").toItemStack());
+            inv.addItem(new ItemBuilder(Material.PLAYER_HEAD).setSkullOwner(player.getName()).setName("§6" + island_name).setLore("§f", "§7- §9Owner : §b" + main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "owner_name"), "§7- §9Votes : §b" + main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "vote"),"§7- §9Level : §b" + main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "level"), "§f", "§7- §3Se téléporter à cette île").toItemStack());
         }
 
         inv.setItem(45, new ItemBuilder(Material.HOPPER).setName("§6Trier").toItemStack());
@@ -108,10 +108,10 @@ public class CommandMain implements CommandExecutor {
     }
 
     public void island(Player player){
-        if(!(ifHaveAIsland(player))){
-            DBUtils.createNewIsland(player);
+        if(!(main.getDbUtils().ifHaveAIsland(player))){
+            main.getDbUtils().createNewIsland(player);
         } else {
-            player.teleport(new Location(player.getWorld(), DBGetIslandIntInfoByUUID(player.getUniqueId(), "x_spawn"), DBGetIslandIntInfoByUUID(player.getUniqueId(), "y_spawn"), DBGetIslandIntInfoByUUID(player.getUniqueId(), "z_spawn")));
+            player.teleport(new Location(player.getWorld(), main.getDbUtils().DBGetIslandIntInfoByUUID(player.getUniqueId(), "x_spawn"), main.getDbUtils().DBGetIslandIntInfoByUUID(player.getUniqueId(), "y_spawn"), main.getDbUtils().DBGetIslandIntInfoByUUID(player.getUniqueId(), "z_spawn")));
             player.sendMessage("§6Vous venez de vous téléporter à votre île !");
         }
     }
@@ -120,7 +120,7 @@ public class CommandMain implements CommandExecutor {
         Inventory inv = Bukkit.createInventory(null, 27, "§6Control Panel");
 
         inv.setItem(12, new ItemBuilder(Material.PAPER, 1).setName("§6" + main.getDbUtils().DBGetIslandStringInfoByUUID(player.getUniqueId(), "island_name")).setLore("§f", "§7- §bChangez le nom de l'île").toItemStack());
-        if(DBGetIslandBooleanInfoByUUID(player.getUniqueId(), "opentovisite")){
+        if(main.getDbUtils().DBGetIslandBooleanInfoByUUID(player.getUniqueId(), "opentovisite")){
             inv.setItem(14, new ItemBuilder(Material.GREEN_CONCRETE, 1).setName("§aOuvert à la visite").setLore("§f", "§7- §bPermet de définir le droit de visite").toItemStack());
         } else {
             inv.setItem(14, new ItemBuilder(Material.RED_CONCRETE, 1).setName("§cFermé à la visite").setLore("§f", "§7- §bPermet de définir le droit de visite").toItemStack());
