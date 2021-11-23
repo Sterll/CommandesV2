@@ -1,3 +1,4 @@
 # CommandesV2
 
-See GitHub of my commands !
+FireWorksUtis : Test Project
+SkyBlock : SkyCraft, big project, in developement
