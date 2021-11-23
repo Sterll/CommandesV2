@@ -1,8 +1,8 @@
 package fr.sterll.skycraftskyblock.commands;
 
 import fr.sterll.skycraftskyblock.ItemBuilder;
-import fr.sterll.skycraftskyblock.Utils;
-import fr.sterll.skycraftskyblock.database.DatabaseManager;
+import fr.sterll.skycraftskyblock.Main;
+import fr.sterll.skycraftskyblock.utils.DBUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,19 +12,21 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.sterll.skycraftskyblock.Utils.*;
-import static fr.sterll.skycraftskyblock.Utils.DBGetIslandStringInfoByIslandName;
+import static fr.sterll.skycraftskyblock.utils.DBUtils.*;
 
 public class CommandMain implements CommandExecutor {
+
+    private Main main;
+
+    public CommandMain(Main main){
+        this.main = main;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -37,7 +39,7 @@ public class CommandMain implements CommandExecutor {
 
         switch (args.length){
             case 0:
-                is(player);
+                island(player);
                 break;
             case 1:
                 switch (args[0]){
@@ -81,8 +83,8 @@ public class CommandMain implements CommandExecutor {
         List<String> islands_name = new ArrayList<String>();
 
         for(OfflinePlayer player2 : Bukkit.getOfflinePlayers()){
-            if(DBGetIslandStringInfoByUUID(player2.getUniqueId(), "island_name") != null){
-                islands_name.add(DBGetIslandStringInfoByUUID(player2.getUniqueId(), "island_name"));
+            if(main.getDbUtils().DBGetIslandStringInfoByUUID(player2.getUniqueId(), "island_name") != null){
+                islands_name.add(main.getDbUtils().DBGetIslandStringInfoByUUID(player2.getUniqueId(), "island_name"));
             }
         }
 
@@ -105,9 +107,9 @@ public class CommandMain implements CommandExecutor {
         player.sendMessage("");
     }
 
-    public void is(Player player){
+    public void island(Player player){
         if(!(ifHaveAIsland(player))){
-            Utils.createNewIsland(player);
+            DBUtils.createNewIsland(player);
         } else {
             player.teleport(new Location(player.getWorld(), DBGetIslandIntInfoByUUID(player.getUniqueId(), "x_spawn"), DBGetIslandIntInfoByUUID(player.getUniqueId(), "y_spawn"), DBGetIslandIntInfoByUUID(player.getUniqueId(), "z_spawn")));
             player.sendMessage("§6Vous venez de vous téléporter à votre île !");
@@ -117,7 +119,7 @@ public class CommandMain implements CommandExecutor {
     public void controlPanel(Player player){
         Inventory inv = Bukkit.createInventory(null, 27, "§6Control Panel");
 
-        inv.setItem(12, new ItemBuilder(Material.PAPER, 1).setName("§6" + DBGetIslandStringInfoByUUID(player.getUniqueId(), "island_name")).setLore("§f", "§7- §bChangez le nom de l'île").toItemStack());
+        inv.setItem(12, new ItemBuilder(Material.PAPER, 1).setName("§6" + main.getDbUtils().DBGetIslandStringInfoByUUID(player.getUniqueId(), "island_name")).setLore("§f", "§7- §bChangez le nom de l'île").toItemStack());
         if(DBGetIslandBooleanInfoByUUID(player.getUniqueId(), "opentovisite")){
             inv.setItem(14, new ItemBuilder(Material.GREEN_CONCRETE, 1).setName("§aOuvert à la visite").setLore("§f", "§7- §bPermet de définir le droit de visite").toItemStack());
         } else {

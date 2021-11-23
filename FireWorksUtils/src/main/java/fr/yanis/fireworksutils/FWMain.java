@@ -20,7 +20,7 @@ public final class FWMain extends JavaPlugin {
         File file = new File(this.getDataFolder(), "config.yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-        if(!(file.exists())){
+        if(!file.exists()){
             config.set("color", Color.RED);
             config.set("type", "BALL");
             config.set("flicker", false);

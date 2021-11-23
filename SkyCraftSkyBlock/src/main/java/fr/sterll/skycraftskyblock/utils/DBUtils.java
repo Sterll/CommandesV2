@@ -1,5 +1,6 @@
-package fr.sterll.skycraftskyblock;
+package fr.sterll.skycraftskyblock.utils;
 
+import fr.sterll.skycraftskyblock.Main;
 import fr.sterll.skycraftskyblock.database.DatabaseManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,7 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class Utils {
+public class DBUtils {
+
+    private Main main;
+
+    public DBUtils(Main main){
+        this.main = main;
+    }
 
     //===================================
     // Fichier - Sauvegarde
@@ -150,7 +157,7 @@ public class Utils {
 
     // Get a value - With UUID
 
-    public static String DBGetIslandStringInfoByUUID(UUID uuid, String geting) {
+    public String DBGetIslandStringInfoByUUID(UUID uuid, String geting) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE owner_uuid = ?");
@@ -176,7 +183,7 @@ public class Utils {
         return null;
     }
 
-    public static int DBGetIslandIntInfoByUUID(UUID uuid, String geting) {
+    public int DBGetIslandIntInfoByUUID(UUID uuid, String geting) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE owner_uuid = ?");
@@ -202,7 +209,7 @@ public class Utils {
         return 0;
     }
 
-    public static boolean DBGetIslandBooleanInfoByUUID(UUID uuid, String geting) {
+    public boolean DBGetIslandBooleanInfoByUUID(UUID uuid, String geting) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE owner_uuid = ?");
@@ -230,7 +237,7 @@ public class Utils {
 
     // Get a value - With Island Name
 
-    public static String DBGetIslandStringInfoByIslandName(String island_name, String geting) {
+    public String DBGetIslandStringInfoByIslandName(String island_name, String geting) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE island_name = ?");
@@ -256,7 +263,7 @@ public class Utils {
         return null;
     }
 
-    public static int DBGetIslandIntInfoByIslandName(String island_name, String geting) {
+    public int DBGetIslandIntInfoByIslandName(String island_name, String geting) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE island_name = ?");
@@ -282,12 +289,64 @@ public class Utils {
         return 0;
     }
 
-    public static boolean DBGetIslandBooleanInfoByIslandName(String island_name, String geting) {
+    public boolean DBGetIslandBooleanInfoByIslandName(String island_name, String geting) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE island_name = ?");
 
             preparedStatement.setString(1, island_name);
+            preparedStatement.executeQuery();
+
+            final ResultSet resultSet = preparedStatement.getResultSet();
+
+            if (resultSet.next()) {
+                boolean getted = resultSet.getBoolean(geting);
+                connection.close();
+                return getted;
+            } else {
+                System.out.println("Erreur lors du getting d'un boolean via le nom d'île");
+            }
+
+            connection.close();
+        } catch (SQLException event) {
+            event.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+    public String DBGetStringUserInfos(UUID uuid, String geting) {
+        try {
+            final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users_informations WHERE uuid = ?");
+
+            preparedStatement.setString(1, uuid.toString());
+            preparedStatement.executeQuery();
+
+            final ResultSet resultSet = preparedStatement.getResultSet();
+
+            if (resultSet.next()) {
+                String getted = resultSet.getString(geting);
+                connection.close();
+                return getted;
+            } else {
+                System.out.println("Erreur lors du getting d'un String via le nom d'île");
+            }
+
+            connection.close();
+        } catch (SQLException event) {
+            event.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public boolean DBGetBooleanUserInfos(UUID uuid, String geting) {
+        try {
+            final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users_informations WHERE uuid = ?");
+
+            preparedStatement.setString(1, uuid.toString());
             preparedStatement.executeQuery();
 
             final ResultSet resultSet = preparedStatement.getResultSet();

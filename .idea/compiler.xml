@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="FireWorksUtils" target="1.8" />
+      <module name="FireWorksUtils" target="1.16" />
       <module name="SkyCraftSkyBlock" target="1.8" />
     </bytecodeTargetLevel>
   </component>
