@@ -29,10 +29,10 @@ public class DBUtils {
     // Fichier - Sauvegarde
     //===================================
 
-    public static void saveFile(File file, FileConfiguration config){
-        try{
+    public void saveFile(File file, FileConfiguration config) {
+        try {
             config.save(file);
-        } catch (IOException exception){
+        } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
@@ -74,8 +74,8 @@ public class DBUtils {
     // Base De Données - Creator
     //===================================
 
-    public static void createNewPlayer(Player player){
-        try{
+    public void createNewPlayer(Player player) {
+        try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users_informations (uuid, name, canVote, island_name) VALUES (?,?,?,?)");
 
@@ -89,19 +89,18 @@ public class DBUtils {
             player.sendMessage("§9Vos informations ont bien été créer !");
 
             connection.close();
-        } catch (SQLException exception){
+        } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
 
-    public static void createNewIsland(Player player){
-        try{
+    public void createNewIsland(Player player) {
+        try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO islands_informations (owner_uuid, owner_name, island_name, biome, opentovisite, vote, level, x_spawn, y_spawn, z_spawn) VALUES (?,?,?,?,?,?,?,?,?,?)");
 
-            preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, player.getName());
-            preparedStatement.setString(3, "Île de " + player.getName());
+            preparedStatement.setString(3, player.getName() + "-island");
             preparedStatement.setString(4, "Planes");
             preparedStatement.setBoolean(5, false);
             preparedStatement.setInt(6, 0);
@@ -115,13 +114,13 @@ public class DBUtils {
             player.sendMessage("§9Vos informations ont bien été créer !");
 
             connection.close();
-        } catch (SQLException exception){
+        } catch (SQLException exception) {
             exception.printStackTrace();
         }
         player.sendMessage("§6Vous venez de créer votre île ! §9/is §8--> §bPour vous y téléporter");
     }
 
-    public static boolean ifHaveAIsland(Player player){
+    public boolean ifHaveAIsland(Player player) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE owner_uuid = ?");
@@ -131,7 +130,7 @@ public class DBUtils {
 
             final ResultSet resultSet = preparedStatement.getResultSet();
 
-            if(resultSet.next()){
+            if (resultSet.next()) {
 
                 player.sendMessage("§9Vos informations ont bien été trouvé !");
 
@@ -142,13 +141,13 @@ public class DBUtils {
 
             connection.close();
             return true;
-        } catch (SQLException event){
+        } catch (SQLException event) {
             event.printStackTrace();
             return false;
         }
     }
 
-    public static boolean ifHaveAAccount(Player player){
+    public boolean ifHaveAAccount(Player player) {
         try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users_informations WHERE uuid = ?");
@@ -158,7 +157,7 @@ public class DBUtils {
 
             final ResultSet resultSet = preparedStatement.getResultSet();
 
-            if(resultSet.next()){
+            if (resultSet.next()) {
 
                 player.sendMessage("§9Vos informations ont bien été trouvé !");
 
@@ -168,7 +167,7 @@ public class DBUtils {
 
             connection.close();
             return true;
-        } catch (SQLException event){
+        } catch (SQLException event) {
             event.printStackTrace();
             return false;
         }
@@ -178,8 +177,8 @@ public class DBUtils {
     // Base De Données - Modifier
     //===================================
 
-    public static void DBSetIslandInfo(Player player, String setting, String settingsvalue) {
-        try{
+    public void DBSetIslandInfo(String island_name, String setting, String settingsvalue) {
+        try {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("UPDATE islands_informations SET " + setting + "='" + settingsvalue + "' WHERE island_name = ?");
 
@@ -187,7 +186,7 @@ public class DBUtils {
             preparedStatement.executeUpdate();
 
             connection.close();
-        } catch (SQLException event){
+        } catch (SQLException event) {
             event.printStackTrace();
         }
     }

@@ -34,7 +34,7 @@ public final class Main extends JavaPlugin {
         DatabaseManager.closeAllDatabaseConnections();
     }
 
-    public static Main getInstance(){
-        return instance;
+    public DBUtils getDbUtils() {
+        return dbUtils;
     }
 }
