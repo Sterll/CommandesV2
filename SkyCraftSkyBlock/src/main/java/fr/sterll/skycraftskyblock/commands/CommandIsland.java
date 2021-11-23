@@ -94,7 +94,7 @@ public class CommandIsland implements CommandExecutor {
 
         for(String island_name : islands_name){
             IslandManager islandManager3 = IslandManager.getIsland(island_name);
-            inv.addItem(new ItemBuilder(Material.PLAYER_HEAD).setSkullOwner(player.getName()).setName("§6" + island_name).setLore("§f", "§7- §9Owner : §b" + islandManager3.getOwner_name(), "§7- §9Votes : §b" + islandManager3.getVote(),"§7- §9Level : §b" + islandManager3.getLevel(), "§f", "§7- §3Se téléporter à cette île").toItemStack());
+            inv.addItem(new ItemBuilder(Material.PLAYER_HEAD).setSkullOwner(player.getName()).setName("§6" + island_name).setLore("§f", "§7- §9Propr^étaire : §b" + islandManager3.getOwner_name(), "§7- §9Votes : §b" + islandManager3.getVote(),"§7- §9Niveau : §b" + islandManager3.getLevel(), "§f", "§7- §3Se téléporter à cette île").toItemStack());
         }
 
         inv.setItem(45, new ItemBuilder(Material.HOPPER).setName("§6Trier").toItemStack());
