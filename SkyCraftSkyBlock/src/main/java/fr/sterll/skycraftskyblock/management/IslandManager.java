@@ -9,22 +9,44 @@ import java.util.UUID;
 public class IslandManager {
 
     private UUID owner_uuid;
-    private String owner_name, island_name;
+    private String owner_name, island_name, biome;
+    private boolean opentovisite;
+    private int vote, level;
+    private float x_spawn, y_spawn, z_spawn;
+
     public static HashMap<String, IslandManager> Islands = new HashMap<>();
 
-    public IslandManager(UUID owner_uuid, String owner_name, String island_name){
+    public IslandManager(UUID owner_uuid, String owner_name, String island_name, String biome, boolean opentovisite, int vote, int level, float x_spawn, float y_spawn, float z_spawn){
         this.owner_uuid = owner_uuid;
         this.owner_name = owner_name;
         this.island_name = island_name;
+        this.biome = biome;
+        this.opentovisite = opentovisite;
+        this.vote = vote;
+        this.level = level;
+        this.x_spawn = x_spawn;
+        this.y_spawn = y_spawn;
+        this.z_spawn = z_spawn;
 
         Islands.put(island_name, this);
     }
 
     public static IslandManager getIsland (String island_name) { return Islands.get(island_name); }
 
+    public static boolean existIsland(String island_name){
+        return Islands.containsKey(island_name);
+    }
+
     public UUID getOwner_uuid(){ return owner_uuid; }
     public String getOwner_name(){ return owner_name; }
     public String getIsland_name(){ return island_name; }
+    public String getBiome(){ return biome; }
+    public boolean getOpenToVisite(){ return opentovisite; }
+    public int getVote(){ return vote; }
+    public int getLevel(){ return level; }
+    public float getX_spawn(){ return x_spawn; }
+    public float getY_spawn(){ return y_spawn; }
+    public float getZ_spawn(){ return z_spawn; }
 
     public void setOwner_uuid(UUID uuid){
         this.owner_uuid = uuid;
@@ -33,6 +55,29 @@ public class IslandManager {
         this.owner_name = ownerName;
     }
     public void setIsland_name(String islandName){
+        Islands.remove(this.island_name);
         this.island_name = islandName;
+        Islands.put(islandName, this);
+    }
+    public void setBiome(String ownerName){
+        this.biome = biome;
+    }
+    public void setOpentovisite(boolean opentovisite){
+        this.opentovisite = opentovisite;
+    }
+    public void setVote(int vote){
+        this.vote = vote;
+    }
+    public void setLevel(int level){
+        this.level = level;
+    }
+    public void setX_spawn(float x_spawn){
+        this.x_spawn = x_spawn;
+    }
+    public void setY_spawn(float y_spawn){
+        this.y_spawn = y_spawn;
+    }
+    public void setZ_spawn(float z_spawn){
+        this.z_spawn = z_spawn;
     }
 }

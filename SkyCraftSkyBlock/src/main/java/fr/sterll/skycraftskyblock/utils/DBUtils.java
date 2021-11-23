@@ -2,6 +2,9 @@ package fr.sterll.skycraftskyblock.utils;
 
 import fr.sterll.skycraftskyblock.Main;
 import fr.sterll.skycraftskyblock.database.DatabaseManager;
+import fr.sterll.skycraftskyblock.management.IslandManager;
+import fr.sterll.skycraftskyblock.management.PlayerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -11,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.UUID;
 
 public class DBUtils {
@@ -34,13 +38,46 @@ public class DBUtils {
     }
 
     //===================================
+    // Base De Données - Sauvegarde
+    //===================================
+
+    public void saveToBDD(){
+        Bukkit.broadcastMessage("§cEnregistrement des données dans la base de donnée ! §4Un coup de lag peut se faire ressentir !");
+        for(PlayerManager playerManager : PlayerManager.Players.values()){
+            saveToBDDAPlayer(playerManager);
+        }
+
+        for(IslandManager islandManager : IslandManager.Islands.values()){
+            saveToBDDAIsland(islandManager);
+        }
+    }
+
+    public void saveToBDDAPlayer(PlayerManager playerManager){
+        DBSetUserInfo(Objects.requireNonNull(Bukkit.getPlayer(playerManager.getPlayername())), "canVote", String.valueOf(playerManager.getCanVote()));
+        DBSetUserInfo(Objects.requireNonNull(Bukkit.getPlayer(playerManager.getPlayername())), "island_name", String.valueOf(playerManager.getIsland_name()));
+    }
+
+    public void saveToBDDAIsland(IslandManager islandManager){
+        DBSetIslandInfo(islandManager.getIsland_name(), "owner_uuid", islandManager.getOwner_uuid().toString());
+        DBSetIslandInfo(islandManager.getIsland_name(), "owner_name", islandManager.getOwner_name());
+        DBSetIslandInfo(islandManager.getIsland_name(), "island_name", islandManager.getIsland_name());
+        DBSetIslandInfo(islandManager.getIsland_name(), "biome", islandManager.getBiome());
+        DBSetIslandInfo(islandManager.getIsland_name(), "opentovisite", String.valueOf(islandManager.getOpenToVisite()));
+        DBSetIslandInfo(islandManager.getIsland_name(), "vote", String.valueOf(islandManager.getVote()));
+        DBSetIslandInfo(islandManager.getIsland_name(), "level", String.valueOf(islandManager.getLevel()));
+        DBSetIslandInfo(islandManager.getIsland_name(), "x_spawn", String.valueOf(islandManager.getX_spawn()));
+        DBSetIslandInfo(islandManager.getIsland_name(), "y_spawn", String.valueOf(islandManager.getY_spawn()));
+        DBSetIslandInfo(islandManager.getIsland_name(), "z_spawn", String.valueOf(islandManager.getZ_spawn()));
+    }
+
+    //===================================
     // Base De Données - Creator
     //===================================
 
     public static void createNewPlayer(Player player){
         try{
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
-            final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users_informations (uuid, name, canVote, inIsland_name) VALUES (?,?,?,?)");
+            final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users_informations (uuid, name, canVote, island_name) VALUES (?,?,?,?)");
 
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, player.getName());
@@ -144,13 +181,27 @@ public class DBUtils {
     public static void DBSetIslandInfo(Player player, String setting, String settingsvalue) {
         try{
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
-            final PreparedStatement preparedStatement = connection.prepareStatement("UPDATE islands_informations SET " + setting + "='" + settingsvalue + "' WHERE owner_uuid = ?");
+            final PreparedStatement preparedStatement = connection.prepareStatement("UPDATE islands_informations SET " + setting + "='" + settingsvalue + "' WHERE island_name = ?");
+
+            preparedStatement.setString(1, island_name);
+            preparedStatement.executeUpdate();
+
+            connection.close();
+        } catch (SQLException event){
+            event.printStackTrace();
+        }
+    }
+
+    public void DBSetUserInfo(Player player, String setting, String settingsvalue) {
+        try {
+            final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users_informations SET " + setting + "='" + settingsvalue + "' WHERE uuid = ?");
 
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.executeUpdate();
 
             connection.close();
-        } catch (SQLException event){
+        } catch (SQLException event) {
             event.printStackTrace();
         }
     }
