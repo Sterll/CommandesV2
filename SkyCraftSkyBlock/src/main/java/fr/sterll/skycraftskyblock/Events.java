@@ -27,11 +27,12 @@ public class Events implements Listener {
         Player player = e.getPlayer();
 
 
-        // ON VERIFIE
+        // ON VERIFIE SI LE JOUEUR EXISTE DANS LA BDD
         if (!(main.getDbUtils().ifHaveAAccount(player))) {
             main.getDbUtils().createNewPlayer(player);
         }
 
+        // ON VERIFIE SI LE JOUEUR EST BIEN ENREGISTRE DANS LE CACHE
         if(!PlayerManager.existPlayer(player)){
             new PlayerManager(player.getUniqueId(), player.getName(), main.getDbUtils().DBGetStringUserInfos(player.getUniqueId(), "island_name"), main.getDbUtils().DBGetBooleanUserInfos(player.getUniqueId(), "canVote"));
         }
