@@ -50,13 +50,13 @@ public class CommandMain implements CommandExecutor {
                             player.sendMessage("§cFireWorks --> §6/fireworks set color [<color>]");
                         }
                         if(args[1].equalsIgnoreCase("type")){
-                            player.sendMessage("§cFireWorks --> §6/fireworks set color [BALL/BALL_LARGE/BURST/CREEPER/STAR]");
+                            player.sendMessage("§cFireWorks --> §6/fireworks set type [BALL/BALL_LARGE/BURST/CREEPER/STAR]");
                         }
                         if(args[1].equalsIgnoreCase("flicker")){
-                            player.sendMessage("§cFireWorks --> §6/fireworks set color [true/false]");
+                            player.sendMessage("§cFireWorks --> §6/fireworks set flicker [true/false]");
                         }
                         if(args[1].equalsIgnoreCase("trail")){
-                            player.sendMessage("§cFireWorks --> §6/fireworks set color [true/false]");
+                            player.sendMessage("§cFireWorks --> §6/fireworks set trail [true/false]");
                         }
                     }
                     break;

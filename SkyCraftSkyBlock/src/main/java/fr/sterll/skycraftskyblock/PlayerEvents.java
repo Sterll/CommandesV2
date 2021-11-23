@@ -129,7 +129,9 @@ public class PlayerEvents implements Listener {
         Player player = e.getPlayer();
 
         main.getDbUtils().saveToBDDAPlayer(PlayerManager.getPlayer(player));
-        main.getDbUtils().saveToBDDAIsland(IslandManager.getIsland(PlayerManager.getPlayer(player).getIsland_name()));
+        if(IslandManager.existIsland(PlayerManager.getPlayer(player).getIsland_name())){
+            main.getDbUtils().saveToBDDAIsland(IslandManager.getIsland(PlayerManager.getPlayer(player).getIsland_name()));
+        }
     }
 
 }

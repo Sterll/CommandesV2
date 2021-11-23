@@ -81,7 +81,7 @@ public class DBUtils {
 
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, player.getName());
-            preparedStatement.setString(3, "1");
+            preparedStatement.setInt(3, 1);
             preparedStatement.setString(4, "Aucune");
 
             preparedStatement.executeUpdate();
@@ -99,6 +99,7 @@ public class DBUtils {
             final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
             final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO islands_informations (owner_uuid, owner_name, island_name, biome, opentovisite, vote, level, x_spawn, y_spawn, z_spawn) VALUES (?,?,?,?,?,?,?,?,?,?)");
 
+            preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, player.getName());
             preparedStatement.setString(3, "Île de " + player.getName());
             preparedStatement.setString(4, "Planes");

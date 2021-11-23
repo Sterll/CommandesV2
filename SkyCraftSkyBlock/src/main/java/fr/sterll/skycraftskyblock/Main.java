@@ -2,8 +2,10 @@ package fr.sterll.skycraftskyblock;
 
 import fr.sterll.skycraftskyblock.commands.CommandIsland;
 import fr.sterll.skycraftskyblock.gestion.database.DatabaseManager;
+import fr.sterll.skycraftskyblock.timer.BDDSave;
 import fr.sterll.skycraftskyblock.utils.DBUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,12 +18,8 @@ public final class Main extends JavaPlugin {
         this.dbUtils = new DBUtils(this);
         register();
         DatabaseManager.initAllDatabaseConnection();
-        Bukkit.getScheduler().runTaskTimer(this, new BukkitRunnable() {
-            @Override
-            public void run() {
-                getDbUtils().saveToBDD();
-            }
-        }, 0, 72000);
+        BDDSave task = new BDDSave(this);
+        task.runTaskTimer(this, 0, 0);
     }
 
     public void register(){

@@ -36,7 +36,9 @@ public class CommandIsland implements CommandExecutor {
 
         Player player = (Player) sender;
         PlayerManager playerManager = PlayerManager.getPlayer(player);
+        player.sendMessage(playerManager.getIsland_name());
         IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
+        player.sendMessage(islandManager.getBiome());
 
         switch (args.length){
             case 0:
@@ -116,6 +118,7 @@ public class CommandIsland implements CommandExecutor {
     public void island(Player player, PlayerManager playerManager, IslandManager islandManager){
         if(!(main.getDbUtils().ifHaveAIsland(player))){
             main.getDbUtils().createNewIsland(player);
+            main.getDbUtils().DBSetUserInfo(player, "island_name", "Île de " + player.getName());
             new IslandManager(player.getUniqueId(), player.getName(), "Île de " + player.getName(), "Planes", false, 0, 0, 0, 0, 0);
         } else {
             player.teleport(new Location(player.getWorld(), islandManager.getX_spawn(), islandManager.getY_spawn(), islandManager.getZ_spawn()));
@@ -132,7 +135,6 @@ public class CommandIsland implements CommandExecutor {
         } else {
             inv.setItem(14, new ItemBuilder(Material.RED_CONCRETE, 1).setName("§cFermé à la visite").setLore("§f", "§7- §bPermet de définir le droit de visite").toItemStack());
         }
-
         player.openInventory(inv);
     }
 }
