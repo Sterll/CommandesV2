@@ -1,5 +1,6 @@
 package fr.sterll.skycraftskyblock.management;
 
+import fr.sterll.skycraftskyblock.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -10,13 +11,14 @@ public class IslandManager {
 
     private UUID owner_uuid;
     private String owner_name, island_name, biome;
-    private boolean opentovisite;
+    private int opentovisite; // 0 = false, 1 = true
     private int vote, level;
     private float x_spawn, y_spawn, z_spawn;
+    private Main main;
 
     public static HashMap<String, IslandManager> Islands = new HashMap<>();
 
-    public IslandManager(UUID owner_uuid, String owner_name, String island_name, String biome, boolean opentovisite, int vote, int level, float x_spawn, float y_spawn, float z_spawn){
+    public IslandManager(Main main, UUID owner_uuid, String owner_name, String island_name, String biome, int opentovisite, int vote, int level, float x_spawn, float y_spawn, float z_spawn){
         this.owner_uuid = owner_uuid;
         this.owner_name = owner_name;
         this.island_name = island_name;
@@ -27,6 +29,7 @@ public class IslandManager {
         this.x_spawn = x_spawn;
         this.y_spawn = y_spawn;
         this.z_spawn = z_spawn;
+        this.main = main;
 
         Islands.put(island_name, this);
     }
@@ -41,7 +44,7 @@ public class IslandManager {
     public String getOwner_name(){ return owner_name; }
     public String getIsland_name(){ return island_name; }
     public String getBiome(){ return biome; }
-    public boolean getOpenToVisite(){ return opentovisite; }
+    public int getOpenToVisite(){ return opentovisite; }
     public int getVote(){ return vote; }
     public int getLevel(){ return level; }
     public float getX_spawn(){ return x_spawn; }
@@ -62,8 +65,9 @@ public class IslandManager {
     public void setBiome(String ownerName){
         this.biome = biome;
     }
-    public void setOpentovisite(boolean opentovisite){
+    public void setOpentovisite(int opentovisite){
         this.opentovisite = opentovisite;
+        main.getDbUtils().DBSetIslandInfo(getIsland_name(), "opentovisite", String.valueOf(opentovisite));
     }
     public void setVote(int vote){
         this.vote = vote;

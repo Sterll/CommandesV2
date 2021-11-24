@@ -36,14 +36,14 @@ public class PlayerEvents implements Listener {
 
         // ON VERIFIE SI LE JOUEUR EST BIEN ENREGISTRE DANS LE CACHE
         if(!PlayerManager.existPlayer(player)){
-            new PlayerManager(player.getUniqueId(), player.getName(), main.getDbUtils().DBGetStringUserInfos(player.getUniqueId(), "island_name"), main.getDbUtils().DBGetBooleanUserInfos(player.getUniqueId(), "canVote"));
+            new PlayerManager(player.getUniqueId(), player.getName(), main.getDbUtils().DBGetStringUserInfos(player.getUniqueId(), "island_name"), main.getDbUtils().DBGetIntUserInfos(player.getUniqueId(), "canVote"));
         }
 
         // ON VERIFIE SI L'ÎLE DU JOUEUR EST BIEN ENREGISTRE DANS LE CACHE
         if(main.getDbUtils().ifHaveAIsland(player)){
             String island_name = PlayerManager.getPlayer(player).getIsland_name();
             if(!IslandManager.existIsland(island_name)){
-                new IslandManager(UUID.fromString(main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "owner_uuid")), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "owner_name"), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "island_name"), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "biome"), main.getDbUtils().DBGetIslandBooleanInfoByIslandName(island_name, "opentovisite"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "vote"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "level"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "x_spawn"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "y_spawn"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "z_spawn"));
+                new IslandManager(main, UUID.fromString(main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "owner_uuid")), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "owner_name"), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "island_name"), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "biome"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "opentovisite"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "vote"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "level"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "x_spawn"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "y_spawn"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "z_spawn"));
             }
         }
     }
@@ -72,13 +72,13 @@ public class PlayerEvents implements Listener {
                     player.closeInventory();
                 }
                 if (it.getItemMeta().getDisplayName().equalsIgnoreCase("§aOuvert à la visite")) {
-                    islandManager.setOpentovisite(false);
+                    islandManager.setOpentovisite(0);
                     player.sendMessage("§6Vous venez de §cfermer §6votre île à la visite");
                     player.closeInventory();
                     player.performCommand("is cp");
                 }
                 if (it.getItemMeta().getDisplayName().equalsIgnoreCase("§cFermé à la visite")) {
-                    islandManager.setOpentovisite(true);
+                    islandManager.setOpentovisite(1);
                     player.sendMessage("§6Vous venez d'§aouvrir §6votre île à la visite");
                     player.closeInventory();
                     player.performCommand("is cp");

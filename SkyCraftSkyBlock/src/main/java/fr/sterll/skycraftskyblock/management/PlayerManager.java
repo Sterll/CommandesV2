@@ -10,10 +10,10 @@ public class PlayerManager {
 
     private UUID uuid;
     private String playername, island_name;
-    private boolean canVote;
+    private int canVote; // 0 = false 1 = true
     public static HashMap<Player, PlayerManager> Players = new HashMap<>();
 
-    public PlayerManager(UUID uuid, String playername, String island_name, boolean canVote){
+    public PlayerManager(UUID uuid, String playername, String island_name, int canVote){
         this.uuid = uuid;
         this.playername = playername;
         this.island_name = island_name;
@@ -31,12 +31,12 @@ public class PlayerManager {
     public UUID getUuid(){ return uuid; }
     public String getPlayername(){ return playername; }
     public String getIsland_name(){ return island_name; }
-    public boolean getCanVote(){ return canVote; }
+    public int getCanVote(){ return canVote; }
 
     public void setIsland_name(String islandName){
         this.island_name = islandName;
     }
-    public void setCanVote(boolean canVote){
+    public void setCanVote(int canVote){
         this.canVote = canVote;
     }
 }

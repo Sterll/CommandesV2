@@ -17,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CommandIsland implements CommandExecutor {
 
@@ -36,35 +37,32 @@ public class CommandIsland implements CommandExecutor {
 
         Player player = (Player) sender;
         PlayerManager playerManager = PlayerManager.getPlayer(player);
-        player.sendMessage(playerManager.getIsland_name());
-        IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
-        player.sendMessage(islandManager.getBiome());
 
         switch (args.length){
             case 0:
-                island(player, playerManager, islandManager);
+                island(player, playerManager);
                 break;
             case 1:
                 switch (args[0]){
                     case "help":
-                        help(player, playerManager, islandManager);
+                        help(player, playerManager);
                         break;
                     case "warp":
                         player.sendMessage("§cVeuillez entrer un nom de joueur");
                         break;
                     case "warps":
                         try {
-                            warps(player, playerManager, islandManager);
+                            warps(player, playerManager);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
                         break;
                     case "topvote":
-                        topVote(player, playerManager, islandManager);
+                        topVote(player, playerManager);
                         break;
                     case "controlpanel":
                     case "cp":
-                        controlPanel(player, playerManager, islandManager);
+                        controlPanel(player, playerManager);
                         break;
                 }
                 break;
@@ -73,7 +71,7 @@ public class CommandIsland implements CommandExecutor {
         return false;
     }
 
-    public void help(Player player, PlayerManager playerManager, IslandManager islandManager){
+    public void help(Player player, PlayerManager playerManager){
         player.sendMessage("§9================================");
         player.sendMessage("§6/is §7--> §bPermet de vous téléportez à votre île ou de vous en créez une");
         player.sendMessage("§6/is controlpanel §7--> §bPermet d'ouvrir le menu de configuration de votre île");
@@ -81,23 +79,22 @@ public class CommandIsland implements CommandExecutor {
         player.sendMessage("§9================================");
     }
 
-    public void warps(Player player, PlayerManager playerManager, IslandManager islandManager) throws SQLException {
+    public void warps(Player player, PlayerManager playerManager) throws SQLException {
         Inventory inv = Bukkit.createInventory(null, 54, "§aÎles visitables");
 
         List<String> islands_name = new ArrayList<String>();
 
         for(OfflinePlayer player2 : Bukkit.getOfflinePlayers()){
-            PlayerManager playerManager2 = PlayerManager.getPlayer(player2.getPlayer());
-            IslandManager islandManager2 = IslandManager.getIsland(playerManager2.getIsland_name());
-
-            if(player2.getName() == IslandManager.getIsland(playerManager2.getIsland_name()).getOwner_name()){
-                islands_name.add(playerManager2.getIsland_name());
+            if(main.getDbUtils().DBGetIslandStringInfoByUUID(player2.getUniqueId(), "island_name") != null){
+                if(main.getDbUtils().DBGetIslandBooleanInfoByUUID(player2.getUniqueId(), "opentovisite")){
+                    islands_name.add(main.getDbUtils().DBGetIslandStringInfoByUUID(player2.getUniqueId(), "island_name"));
+                }
             }
         }
 
         for(String island_name : islands_name){
             IslandManager islandManager3 = IslandManager.getIsland(island_name);
-            inv.addItem(new ItemBuilder(Material.PLAYER_HEAD).setSkullOwner(player.getName()).setName("§6" + island_name).setLore("§f", "§7- §9Propr^étaire : §b" + islandManager3.getOwner_name(), "§7- §9Votes : §b" + islandManager3.getVote(),"§7- §9Niveau : §b" + islandManager3.getLevel(), "§f", "§7- §3Se téléporter à cette île").toItemStack());
+            inv.addItem(new ItemBuilder(Material.PLAYER_HEAD).setSkullOwner(player.getName()).setName("§6" + island_name).setLore("§f", "§7- §9Propriétaire : §b" + islandManager3.getOwner_name(), "§7- §9Votes : §b" + islandManager3.getVote(),"§7- §9Niveau : §b" + islandManager3.getLevel(), "§f", "§7- §3Se téléporter à cette île").toItemStack());
         }
 
         inv.setItem(45, new ItemBuilder(Material.HOPPER).setName("§6Trier").toItemStack());
@@ -111,26 +108,28 @@ public class CommandIsland implements CommandExecutor {
         player.openInventory(inv);
     }
 
-    public void topVote(Player player, PlayerManager playerManager, IslandManager islandManager){
+    public void topVote(Player player, PlayerManager playerManager){
         player.sendMessage("");
     }
 
-    public void island(Player player, PlayerManager playerManager, IslandManager islandManager){
+    public void island(Player player, PlayerManager playerManager){
         if(!(main.getDbUtils().ifHaveAIsland(player))){
             main.getDbUtils().createNewIsland(player);
             main.getDbUtils().DBSetUserInfo(player, "island_name", "Île de " + player.getName());
-            new IslandManager(player.getUniqueId(), player.getName(), "Île de " + player.getName(), "Planes", false, 0, 0, 0, 0, 0);
+            new IslandManager(main, player.getUniqueId(), player.getName(), "Île de " + player.getName(), "Planes", 0, 0, 0, 0, 0, 0);
         } else {
+            IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
             player.teleport(new Location(player.getWorld(), islandManager.getX_spawn(), islandManager.getY_spawn(), islandManager.getZ_spawn()));
             player.sendMessage("§6Vous venez de vous téléporter à votre île !");
         }
     }
 
-    public void controlPanel(Player player, PlayerManager playerManager, IslandManager islandManager){
+    public void controlPanel(Player player, PlayerManager playerManager){
         Inventory inv = Bukkit.createInventory(null, 27, "§6Control Panel");
+        IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
 
         inv.setItem(12, new ItemBuilder(Material.PAPER, 1).setName("§6" + playerManager.getIsland_name()).setLore("§f", "§7- §bChangez le nom de l'île").toItemStack());
-        if(islandManager.getOpenToVisite()){
+        if(islandManager.getOpenToVisite() == 1){
             inv.setItem(14, new ItemBuilder(Material.GREEN_CONCRETE, 1).setName("§aOuvert à la visite").setLore("§f", "§7- §bPermet de définir le droit de visite").toItemStack());
         } else {
             inv.setItem(14, new ItemBuilder(Material.RED_CONCRETE, 1).setName("§cFermé à la visite").setLore("§f", "§7- §bPermet de définir le droit de visite").toItemStack());

@@ -223,7 +223,6 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un String via le nom d'île");
             }
 
             connection.close();
@@ -249,7 +248,7 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un int via le nom d'île");
+
             }
 
             connection.close();
@@ -275,7 +274,7 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un boolean via le nom d'île");
+
             }
 
             connection.close();
@@ -303,7 +302,7 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un String via le nom d'île");
+
             }
 
             connection.close();
@@ -329,7 +328,7 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un int via le nom d'île");
+
             }
 
             connection.close();
@@ -355,7 +354,7 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un boolean via le nom d'île");
+
             }
 
             connection.close();
@@ -381,7 +380,7 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un String via le nom d'île");
+
             }
 
             connection.close();
@@ -407,7 +406,7 @@ public class DBUtils {
                 connection.close();
                 return getted;
             } else {
-                System.out.println("Erreur lors du getting d'un boolean via le nom d'île");
+
             }
 
             connection.close();
@@ -416,5 +415,31 @@ public class DBUtils {
             return false;
         }
         return false;
+    }
+
+    public int DBGetIntUserInfos(UUID uuid, String geting) {
+        try {
+            final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users_informations WHERE uuid = ?");
+
+            preparedStatement.setString(1, uuid.toString());
+            preparedStatement.executeQuery();
+
+            final ResultSet resultSet = preparedStatement.getResultSet();
+
+            if (resultSet.next()) {
+                int getted = resultSet.getInt(geting);
+                connection.close();
+                return getted;
+            } else {
+
+            }
+
+            connection.close();
+        } catch (SQLException event) {
+            event.printStackTrace();
+            return 0;
+        }
+        return 0;
     }
 }

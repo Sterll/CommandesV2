@@ -5,7 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class BDDSave extends BukkitRunnable {
 
-    private int timer = 3600;
+    private int timer = 72000;
     private Main main;
 
     public BDDSave(Main main){
@@ -17,7 +17,7 @@ public class BDDSave extends BukkitRunnable {
 
         if(timer == 0){
             main.getDbUtils().saveToBDD();
-            timer = 3600;
+            timer = 72000;
         }
 
         timer--;
