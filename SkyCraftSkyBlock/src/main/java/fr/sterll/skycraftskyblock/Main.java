@@ -2,6 +2,7 @@ package fr.sterll.skycraftskyblock;
 
 import fr.sterll.skycraftskyblock.commands.CommandIsland;
 import fr.sterll.skycraftskyblock.gestion.database.DatabaseManager;
+import fr.sterll.skycraftskyblock.management.PlayerManager;
 import fr.sterll.skycraftskyblock.timer.BDDSave;
 import fr.sterll.skycraftskyblock.utils.DBUtils;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public final class Main extends JavaPlugin {
         DatabaseManager.initAllDatabaseConnection();
         BDDSave task = new BDDSave(this);
         task.runTaskTimer(this, 0, 0);
+        getDbUtils().registerIsland();
     }
 
     public void register(){

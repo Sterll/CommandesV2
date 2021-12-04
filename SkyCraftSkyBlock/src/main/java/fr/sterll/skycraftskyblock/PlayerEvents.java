@@ -15,6 +15,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 public class PlayerEvents implements Listener {
@@ -46,13 +47,14 @@ public class PlayerEvents implements Listener {
                 new IslandManager(main, UUID.fromString(main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "owner_uuid")), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "owner_name"), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "island_name"), main.getDbUtils().DBGetIslandStringInfoByIslandName(island_name, "biome"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "opentovisite"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "vote"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "level"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "x_spawn"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "y_spawn"), main.getDbUtils().DBGetIslandIntInfoByIslandName(island_name, "z_spawn"));
             }
         }
+
+        player.sendMessage(IslandManager.Islands.values().toString());
     }
 
     @EventHandler
     public void onClick (InventoryClickEvent e){
         Player player = (Player) e.getWhoClicked();
         PlayerManager playerManager = PlayerManager.getPlayer(player);
-        IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
         InventoryView inv = e.getView();
         ItemStack it = e.getCurrentItem();
 
@@ -61,6 +63,7 @@ public class PlayerEvents implements Listener {
         }
 
         if (inv.getTitle().equalsIgnoreCase("§6Control Panel")) {
+            IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
             e.setCancelled(true);
             if (it.hasItemMeta() && it.getItemMeta().hasDisplayName()) {
                 if (it.getItemMeta().getDisplayName().equalsIgnoreCase("§6" + playerManager.getIsland_name())){
@@ -102,19 +105,24 @@ public class PlayerEvents implements Listener {
     }
 
     private void saveFile(File file, FileConfiguration config) {
+        try{
+            config.save(file);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e){
         Player player = e.getPlayer();
         PlayerManager playerManager = PlayerManager.getPlayer(player);
-        IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
         String message = e.getMessage();
         File file = new File(main.getDataFolder(), "tempfile/users_" + player.getUniqueId());
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         if(file.exists()){
             if(config.getBoolean("islandNameSet")){
+                IslandManager islandManager = IslandManager.getIsland(playerManager.getIsland_name());
                 e.setCancelled(true);
                 islandManager.setIsland_name(message);
                 playerManager.setIsland_name(message);

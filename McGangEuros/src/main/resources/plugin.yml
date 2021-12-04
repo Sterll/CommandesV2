@@ -1,0 +1,33 @@
+name: McGanGCore
+version: '${project.version}'
+main: fr.yanis.mcgangcore.McGanGCoreMain
+api-version: 1.17
+authors: [ Sterll ]
+description: Plugin d'economy sur l'Euro
+commands:
+  euro:
+    description: Commande principal du discord
+  broadcast:
+    description: Permet de faire un broadcast
+
+permissions:
+  euro.*:
+    description: Permet d'avoir accès à toutes les commandes
+    default: op
+    children:
+      - euro.give
+      - euro.remove
+      - euro.set
+      - euro.reset
+  euro.give:
+    description: Permet de give de l'argent à un joueur
+    default: not op
+  euro.remove:
+    description: Permet de supprimer de l'argent à un joueur
+    default: not op
+  euro.set:
+    description: Permet de set l'argent d'un joueur
+    default: not op
+  euro.reset:
+    description: Permet de reset l'argent à un joueur
+    default: not op

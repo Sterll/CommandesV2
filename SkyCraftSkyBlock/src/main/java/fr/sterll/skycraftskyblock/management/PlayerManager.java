@@ -29,7 +29,7 @@ public class PlayerManager {
     public static PlayerManager getPlayer (Player p) { return Players.get(p); }
 
     public UUID getUuid(){ return uuid; }
-    public String getPlayername(){ return playername; }
+    public String getPlayerName(){ return playername; }
     public String getIsland_name(){ return island_name; }
     public int getCanVote(){ return canVote; }
 

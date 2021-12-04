@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FireWorksUtils/FireWorksUtils.iml" filepath="$PROJECT_DIR$/FireWorksUtils/FireWorksUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/McGangEuros/McGangCore.iml" filepath="$PROJECT_DIR$/McGangEuros/McGangCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OrexionCore/OrexionCore.iml" filepath="$PROJECT_DIR$/OrexionCore/OrexionCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/SkyCraftSkyBlock/SkyCraftSkyBlock.iml" filepath="$PROJECT_DIR$/SkyCraftSkyBlock/SkyCraftSkyBlock.iml" />
     </modules>
   </component>

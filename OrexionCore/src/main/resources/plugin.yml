@@ -1,0 +1,7 @@
+name: OraxionCore
+version: '${project.version}'
+main: fr.yanis.oraxioncore.OraxionCore
+authors: [ Sterll ]
+commands:
+  orexionworld:
+    description: Commande principal du plugin

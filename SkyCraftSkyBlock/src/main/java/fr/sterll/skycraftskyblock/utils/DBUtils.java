@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -43,18 +45,22 @@ public class DBUtils {
 
     public void saveToBDD(){
         Bukkit.broadcastMessage("§cEnregistrement des données dans la base de donnée ! §4Un coup de lag peut se faire ressentir !");
-        for(PlayerManager playerManager : PlayerManager.Players.values()){
-            saveToBDDAPlayer(playerManager);
+        if(!PlayerManager.Players.isEmpty()){
+            for(PlayerManager playerManager : PlayerManager.Players.values()){
+                saveToBDDAPlayer(playerManager);
+            }
         }
 
-        for(IslandManager islandManager : IslandManager.Islands.values()){
-            saveToBDDAIsland(islandManager);
+        if(!IslandManager.Islands.isEmpty()){
+            for(IslandManager islandManager : IslandManager.Islands.values()){
+                saveToBDDAIsland(islandManager);
+            }
         }
     }
 
     public void saveToBDDAPlayer(PlayerManager playerManager){
-        DBSetUserInfo(Objects.requireNonNull(Bukkit.getPlayer(playerManager.getPlayername())), "canVote", String.valueOf(playerManager.getCanVote()));
-        DBSetUserInfo(Objects.requireNonNull(Bukkit.getPlayer(playerManager.getPlayername())), "island_name", String.valueOf(playerManager.getIsland_name()));
+        DBSetUserInfo(Objects.requireNonNull(Bukkit.getPlayer(playerManager.getPlayerName())), "canVote", String.valueOf(playerManager.getCanVote()));
+        DBSetUserInfo(Objects.requireNonNull(Bukkit.getPlayer(playerManager.getPlayerName())), "island_name", String.valueOf(playerManager.getIsland_name()));
     }
 
     public void saveToBDDAIsland(IslandManager islandManager){
@@ -73,6 +79,25 @@ public class DBUtils {
     //===================================
     // Base De Données - Creator
     //===================================
+
+    public void registerIsland(){
+        try{
+            final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations");
+
+            preparedStatement.executeQuery();
+
+            ResultSet resultSet = preparedStatement.getResultSet();
+
+            while(resultSet.next()){
+                new IslandManager(main, UUID.fromString(resultSet.getString("owner_uuid")), resultSet.getString("owner_name"), resultSet.getString("island_name"), resultSet.getString("biome"), resultSet.getInt("opentovisite"), resultSet.getInt("vote"), resultSet.getInt("level"), resultSet.getInt("x_spawn"), resultSet.getInt("y_spawn"), resultSet.getInt("z_spawn"));
+            }
+
+            connection.close();
+        } catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
 
     public void createNewPlayer(Player player) {
         try {
@@ -171,6 +196,50 @@ public class DBUtils {
         } catch (SQLException event) {
             event.printStackTrace();
             return false;
+        }
+    }
+
+    public List<String> getAllIslandOpen(){
+        try{
+            final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations WHERE opentovisite = 1");
+
+            preparedStatement.executeQuery();
+
+            List<String> islands_name = new ArrayList<String>();
+            ResultSet resultSet = preparedStatement.getResultSet();
+
+            while (resultSet.next()){
+                islands_name.add(resultSet.getString("island_name"));
+            }
+
+            connection.close();
+            return islands_name;
+        } catch (SQLException exception){
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<String> getAllIsland(){
+        try{
+            final Connection connection = DatabaseManager.SkyCraftBDD.getDatabaseAccess().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM islands_informations");
+
+            preparedStatement.executeQuery();
+
+            List<String> islands_name = new ArrayList<String>();
+            ResultSet resultSet = preparedStatement.getResultSet();
+
+            while (resultSet.next()){
+                islands_name.add(resultSet.getString("island_name"));
+            }
+
+            connection.close();
+            return islands_name;
+        } catch (SQLException exception){
+            exception.printStackTrace();
+            return null;
         }
     }
 
