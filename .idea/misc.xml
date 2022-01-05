@@ -9,9 +9,9 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/SkyCraftSkyBlock/pom.xml" />
-        <option value="$PROJECT_DIR$/FireWorksUtils/pom.xml" />
         <option value="$PROJECT_DIR$/McGangEuros/pom.xml" />
         <option value="$PROJECT_DIR$/OrexionCore/pom.xml" />
+        <option value="$PROJECT_DIR$/McGanGPlayers/pom.xml" />
       </list>
     </option>
   </component>

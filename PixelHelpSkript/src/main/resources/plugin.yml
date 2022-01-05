@@ -1,0 +1,4 @@
+name: PixelHelpSkript
+version: '${project.version}'
+main: fr.yanis.pixelhelpskript.PHSMain
+authors: [ Yanis ]

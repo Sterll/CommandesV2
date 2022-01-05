@@ -1,4 +1,4 @@
-package fr.yanis.fireworksutils;
+package fr.yanis.mcgangplayers.utils;
 
 import org.bukkit.Color;
 import org.bukkit.DyeColor;

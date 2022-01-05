@@ -1,0 +1,5 @@
+name: BuildYourStorySorts
+version: '${project.version}'
+main: fr.yanis.buildyourstorysorts.BYSSorts
+authors: [ Sterll ]
+description: Plugin de sorts pour le serveur BuildYourStory

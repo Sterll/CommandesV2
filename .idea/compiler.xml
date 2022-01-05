@@ -7,15 +7,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SkyCraftSkyBlock" />
-        <module name="FireWorksUtils" />
         <module name="OrexionCore" />
+        <module name="McGanGPlayers" />
         <module name="McGangCore" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="BYSSorts" target="1.8" />
       <module name="FireWorksUtils" target="1.16" />
       <module name="McGangCore" target="1.8" />
+      <module name="McGanGPlayers" target="1.8" />
       <module name="OrexionCore" target="1.8" />
+      <module name="PixelHelpSkript" target="1.8" />
       <module name="SkyCosmetiques" target="1.8" />
       <module name="SkyCraftSkyBlock" target="1.8" />
     </bytecodeTargetLevel>

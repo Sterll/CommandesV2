@@ -1,0 +1,15 @@
+name: McGanGPlayers
+version: '${project.version}'
+main: fr.yanis.mcgangplayers.McGanGPlayersMain
+api-version: 1.17
+authors: [ Sterll, Yanis ]
+description: Plugin de gestion du joueurs !
+depend:
+  - Vault
+commands:
+  menu:
+    aliases:
+      - atom
+      - level
+      - niveau
+    description: Permet d'ouvrir le menu principal

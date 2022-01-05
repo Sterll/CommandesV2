@@ -25,16 +25,36 @@ public class CommandEuro implements CommandExecutor {
                     Player player = (Player) sender;
                     File file = new File(main.getDataFolder(), "users.yml");
                     FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-                    player.sendMessage("§9Vous possédez §b" + config.get(player.getUniqueId() + "euro") + " euros");
+                    player.sendMessage("§9Vous possédez §b" + config.getInt(player.getUniqueId() + "euro") + " euros");
                 } else {
                     sender.sendMessage("§cSeul un joueur peut exécuter cette commande !");
                 }
                 break;
             case 1:
-                sender.sendMessage("§cVeuillez préciser un joueur !");
+                if(Bukkit.getPlayer(args[0]) != null){
+                    Player target = Bukkit.getPlayer(args[0]);
+                    File file = new File(main.getDataFolder(), "users.yml");
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+                    sender.sendMessage(main.getPrefixEuro() + " §9Ce joueur à §b" + config.getInt(target.getUniqueId() + "euro") + " euro");
+                } else {
+                    sender.sendMessage("§cVeuillez préciser un joueur !");
+                }
                 break;
             case 2:
-                sender.sendMessage("§cVeuillez préciser un montant !");
+                if(args[0].equalsIgnoreCase("reset")) {
+                    if (Bukkit.getPlayer(args[1]) != null) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        File fileTarget = new File(main.getDataFolder(), "users.yml");
+                        FileConfiguration configTarget = YamlConfiguration.loadConfiguration(fileTarget);
+                        configTarget.set(target.getUniqueId() + "euro", 0);
+                        main.getUtils().saveFile(fileTarget, configTarget);
+                        target.sendMessage(main.getPrefixEuro() + " §bVotre solde vient d'être remit à zéro");
+                    } else {
+                        sender.sendMessage(" §cLe joueur §4" + args[1] + " §cn'existe pas !");
+                    }
+                } else {
+                    sender.sendMessage(main.getPrefixEuro() + " §cVeuillez saisir un bon montant");
+                }
                 break;
             case 3:
                 if(sender instanceof Player){{
@@ -75,19 +95,18 @@ public class CommandEuro implements CommandExecutor {
                         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
                         if(args[0].equalsIgnoreCase("set")){
                             config.set(target.getUniqueId() + "euro", euro);
+                            main.getUtils().saveFile(file, config);
                             target.sendMessage(main.getPrefixEuro() + " §bVotre solde vient d'être set à §b" + euro + " euro");
                         }
                         if(args[0].equalsIgnoreCase("give")){
                             config.set(target.getUniqueId() + "euro", euro + config.getInt("euro"));
+                            main.getUtils().saveFile(file, config);
                             target.sendMessage(main.getPrefixEuro() + " §bVous venez de recevoir §b" + euro + " euro");
                         }
                         if(args[0].equalsIgnoreCase("remove")){
                             config.set(target.getUniqueId() + "euro", config.getInt("euro") - euro);
+                            main.getUtils().saveFile(file, config);
                             target.sendMessage(main.getPrefixEuro() + " §bVous venez de perdre §b" + euro + " euro");
-                        }
-                        if(args[0].equalsIgnoreCase("reset")){
-                            config.set(target.getUniqueId() + "euro", 0);
-                            target.sendMessage(main.getPrefixEuro() + " §bVotre solde vient d'être remit à zéro");
                         }
                     } catch (NumberFormatException e){
                         e.printStackTrace();

@@ -9,13 +9,14 @@ import java.io.File;
 public final class McGanGCoreMain extends JavaPlugin {
 
     private Utils utils;
-    private String prefixEuro, prefixBroadCast;
+    private String prefixEuro;
 
     @Override
     public void onEnable() {
         this.utils = new Utils();
         getCommand("euro").setExecutor(new CommandEuro(this));
-        getCommand("broadcast").setExecutor(new CommandBroadcast(this));
+        getCommand("hbroaction").setExecutor(new CommandBroadcast(this));
+        getServer().getPluginManager().registerEvents(new PlayersEvents(this), this);
         verifAllPrefix();
     }
 
@@ -29,16 +30,11 @@ public final class McGanGCoreMain extends JavaPlugin {
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         if(file.exists()){
             this.prefixEuro = config.getString("prefixEuro").replace("&", "§");
-            this.prefixBroadCast = config.getString("prefixBroadCast").replace("&", "§");
         } else {
             config.set("prefixEuro", "&9Euro &7->");
-            config.set("prefixBroadCast", "&9BroadCast &7-> &b");
             this.utils.saveFile(file, config);
+            this.prefixEuro = config.getString("prefixEuro").replace("&", "§");
         }
-    }
-
-    public String getPrefixBroadCast() {
-        return prefixBroadCast;
     }
 
     public String getPrefixEuro() {
