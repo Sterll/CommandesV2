@@ -10,9 +10,11 @@
         <module name="OrexionCore" />
         <module name="McGanGPlayers" />
         <module name="McGangCore" />
+        <module name="ArmorStandMovement" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ArmorStandMovement" target="1.8" />
       <module name="BYSSorts" target="1.8" />
       <module name="FireWorksUtils" target="1.16" />
       <module name="McGangCore" target="1.8" />

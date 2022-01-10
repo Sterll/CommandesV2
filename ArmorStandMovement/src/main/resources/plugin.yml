@@ -1,0 +1,8 @@
+name: ArmorStandMovement
+version: '${project.version}'
+main: fr.yanis.armorstandmovement.ArmorStandMain
+authors: [ Yanis ]
+description: Plugin d'armor stand
+commands:
+  armorstand:
+    description: Voilà

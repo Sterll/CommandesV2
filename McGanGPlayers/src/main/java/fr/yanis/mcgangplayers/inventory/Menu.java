@@ -70,39 +70,27 @@ public class Menu {
     }
 
     public void buyPrestige(){
-        Inventory inv = Bukkit.createInventory(null, 36, main.getPrefix() + " " + settingsConfig.getString("inventory.buyPrestige").replace("&", "§"));
+        Inventory inv = Bukkit.createInventory(null, 9, main.getPrefix() + " " + settingsConfig.getString("inventory.buyPrestige").replace("&", "§"));
 
-        int prestigeOfPlayer = usersConfig.getInt(player.getUniqueId() + "prestiges");
-        if(prestigeOfPlayer == 0){
-            for(int i = 1; i < 6;i++){
-                inv.setItem(10+i, new ItemBuilder(Material.RED_TERRACOTTA).setName("§9Prestige §b" + i).setLore(" ", "§7- §3Acquérir ce prestige pour §e15 000 atoms").toItemStack());
-            }
-            for(int i = 6; i < 11;i++){
-                inv.setItem(14+i, new ItemBuilder(Material.RED_TERRACOTTA).setName("§9Prestige §b" + i).setLore(" ", "§7- §3Acquérir ce prestige pour §e15 000 atoms").toItemStack());
-            }
-        } else {
-            for(int i = 1; i < prestigeOfPlayer+1; i++){
-                inv.setItem(11+i, new ItemBuilder(Material.GREEN_TERRACOTTA).setName("§9Prestige §b" + i).setLore(" ", "§7- §ePrestige déjà acquis !").toItemStack());
-            }
-            for(int i = 1; i < 11-prestigeOfPlayer; i++){
-                inv.setItem(11+prestigeOfPlayer+i, new ItemBuilder(Material.RED_TERRACOTTA).setName("§9Prestige §b" + prestigeOfPlayer+i).setLore(" ", "§7- §3Acquérir ce prestige pour §e15 000 atoms").toItemStack());
-            }
-        }
+        int prestigePlayer = usersConfig.getInt(player.getUniqueId() + ".prestiges");
+        inv.setItem(4, new ItemBuilder(Material.PAPER).setName("§9Prestige " + (prestigePlayer + 1)).setLore("§7", "§7- §bPasser au prestige suivant", "§7- §bCoûte 15 000 atoms").toItemStack());
 
-        for(int i = 0;i < 10; i++){
-            inv.setItem(i, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
-        }
-        for(int i = 26;i < 36; i++){
-            inv.setItem(i, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
-        }
-        inv.setItem(17, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
-        inv.setItem(18, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
+        inv.setItem(0, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
+        inv.setItem(8, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
 
         player.openInventory(inv);
     }
 
     public void buyLevel(){
+        Inventory inv = Bukkit.createInventory(null, 9, main.getPrefix() + " " + settingsConfig.getString("inventory.buyLevel").replace("&", "§"));
 
+        int levelPlayer = usersConfig.getInt(player.getUniqueId() + ".levels");
+        inv.setItem(4, new ItemBuilder(Material.PAPER).setName("§9Niveau " + (levelPlayer + 1)).setLore("§7", "§7- §bPasser au niveau suivant", "§7- §bCoûte " + (levelPlayer + 1) * 250 + " atoms").toItemStack());
+
+        inv.setItem(0, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
+        inv.setItem(8, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
+
+        player.openInventory(inv);
     }
 
     public void glassColorChange(){
@@ -146,7 +134,7 @@ public class Menu {
         inv.setItem(1, new ItemBuilder(Material.WOODEN_AXE).setName("§6Hache du fermier").setLore(" ", "§7- §bCasser les mélons et les citrouilles instantanément !", " ", "§7- §9Achetable pour 11 000 atoms", "§7- §cNécesite d'être Presitge 1 !").toItemStack());
 
         inv.setItem(0, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
-        inv.setItem(9, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
+        inv.setItem(8, new ItemBuilder(Material.getMaterial(usersConfig.getString(player.getUniqueId() + ".options.glasscolor") + "_STAINED_GLASS_PANE")).setName("§f").toItemStack());
 
         player.openInventory(inv);
     }

@@ -2,6 +2,8 @@ package fr.yanis.mcgangplayers;
 
 import fr.yanis.mcgangplayers.blocks.Printer;
 import fr.yanis.mcgangplayers.commands.CommandsMain;
+import fr.yanis.mcgangplayers.events.InventoryEvents;
+import fr.yanis.mcgangplayers.events.ItemsEvents;
 import fr.yanis.mcgangplayers.events.PlayersEvents;
 import fr.yanis.mcgangplayers.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
@@ -34,6 +36,8 @@ public final class McGanGPlayersMain extends JavaPlugin {
         this.settingsConfig = YamlConfiguration.loadConfiguration(settingsFile);
         initSettingsFile();
         getServer().getPluginManager().registerEvents(new PlayersEvents(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryEvents(this), this);
+        getServer().getPluginManager().registerEvents(new ItemsEvents(), this);
         getServer().getPluginManager().registerEvents(new Printer(this), this);
         getCommand("menu").setExecutor(new CommandsMain(this));
     }
@@ -64,9 +68,12 @@ public final class McGanGPlayersMain extends JavaPlugin {
             settingsConfig.set("inventory.menu", "&eMenu principal !");
             settingsConfig.set("inventory.glassColorChange", "&eChanger de thème");
             settingsConfig.set("inventory.boosters", "&3Acheter un booster");
-            settingsConfig.set("inventory.buyPrestige", "&3Acheter un un prestige");
+            settingsConfig.set("inventory.buyPrestige", "&3Upgrade son prestige");
             settingsConfig.set("inventory.customItems", "&3Acheter un item custom !");
+            settingsConfig.set("inventory.buyLevel", "&3Upgrade son level");
             //Messages
+            settingsConfig.set("messages.buyPrestige", "&3Vous venez d'upgrade votre prestige");
+            settingsConfig.set("messages.buyLevels", "&3Vous venez d'upgrade votre niveau");
             settingsConfig.set("messages.toMuchPrinter", "&cVous avez trop de printer");
             settingsConfig.set("messages.breakYourPrinter", "&cVous venez de casser un de vos printer");
             settingsConfig.set("messages.sellNetherStar", "&3Vous venez de vendre une nether star pour 10 000 atoms");
@@ -75,9 +82,12 @@ public final class McGanGPlayersMain extends JavaPlugin {
             settingsConfig.set("messages.doesntHaveHeartOfSea", "&3Vous ne possèdez pas de coeur des mers");
             settingsConfig.set("messages.boosterFinish", "&9Un des vos booster est désormais fini !");
             settingsConfig.set("messages.notEnoughMoneyForBuyBooster", "&cVous ne possèdez pas assez d'argent pour acheter ce booster !");
+            settingsConfig.set("messages.notEnoughMoneyForBuyLevel", "&cVous ne possèdez pas assez d'argent pour upgrade de niveau !");
+            settingsConfig.set("messages.notEnoughMoneyForBuyPrestige", "&cVous ne possèdez pas assez d'argent pour upgrade de prestige !");
+            settingsConfig.set("messages.notEnoughLevelsForBuyPrestige", "&cVous n'êtes pas niveau 55 !");
             settingsConfig.set("messages.alreadyHaveBooster", "&cVous avez déjà un booster d'activé !");
-            settingsConfig.set("messages.boostersBuy", "§3Vous venez d'acheter un booster !");
-            settingsConfig.set("messages.booster2BuyWith1Activated", "§3Achat du booster bien effectué !");
+            settingsConfig.set("messages.boostersBuy", "&3Vous venez d'acheter un booster !");
+            settingsConfig.set("messages.booster2BuyWith1Activated", "&3Achat du booster bien effectué !");
             //Booster
             settingsConfig.set("boosters.first.multiplicator", 2);
             settingsConfig.set("boosters.first.durationInSeconds", 3600);

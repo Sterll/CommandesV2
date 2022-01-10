@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ArmorStandMovement/ArmorStandMovement.iml" filepath="$PROJECT_DIR$/ArmorStandMovement/ArmorStandMovement.iml" />
       <module fileurl="file://$PROJECT_DIR$/McGanGPlayers/McGanGPlayers.iml" filepath="$PROJECT_DIR$/McGanGPlayers/McGanGPlayers.iml" />
       <module fileurl="file://$PROJECT_DIR$/McGangEuros/McGangCore.iml" filepath="$PROJECT_DIR$/McGangEuros/McGangCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/OrexionCore/OrexionCore.iml" filepath="$PROJECT_DIR$/OrexionCore/OrexionCore.iml" />
